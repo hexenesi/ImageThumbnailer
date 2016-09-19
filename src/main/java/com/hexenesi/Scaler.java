@@ -5,7 +5,6 @@
  */
 package com.hexenesi;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.paint.Color;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageReadParam;
 import javax.imageio.ImageReader;
@@ -60,13 +60,14 @@ public class Scaler {
                 y=(TARGET_HEIGHT-thumbnail.getHeight())/2;
             }       
             Graphics g = combined.getGraphics();
-            g.setColor(Color.WHITE);
+            g.setColor(new java.awt.Color(0.0f, 0.0f, 0.0f, 1.0f));
             g.fillRect(0, 0, combined.getWidth(), combined.getHeight());
             g.drawImage(thumbnail, x, y, null);
-            g.dispose();
-            // writes to output file
+            g.dispose();            
+            //Writes test subsampled image taken from original
             ImageIO.write(bufferedImage, "jpg", new File("output.jpg"));
-            ImageIO.write(combined, "jpg", new File("output_thumb.jpg"));
+            //Writes thumbnail, created from the subsampled image.
+            ImageIO.write(combined, "png", new File("output_thumb.png"));
 
         } catch (IOException ex) {
             Logger.getLogger(Scaler.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,18 +78,14 @@ public class Scaler {
             int x,
             int y) throws IOException {
         BufferedImage resampledImage = null;
-
         Iterator<ImageReader> readers = ImageIO.getImageReaders(inputStream);
-
         if (!readers.hasNext()) {
             throw new IOException("No reader available for supplied image stream.");
         }
-
+        // Get first reader if any.
         ImageReader reader = readers.next();
-
         ImageReadParam imageReaderParams = reader.getDefaultReadParam();
         reader.setInput(inputStream);
-
         Dimension d1 = new Dimension(reader.getWidth(0), reader.getHeight(0));
         Dimension d2 = new Dimension(x, y);
         int subsampling = (int) scaleSubsamplingMaintainAspectRatio(d1, d2);
@@ -97,6 +94,13 @@ public class Scaler {
         return resampledImage;
     }
 
+    /**
+     * Obtains the subsampling rate, 
+     * This method is somewhat tricky, some images may look bad.
+     * @param d1 Dimension of source image
+     * @param d2 Dimension needed
+     * @return long subsample factor
+     */
     public static long scaleSubsamplingMaintainAspectRatio(Dimension d1, Dimension d2) {
         long subsampling = 1;
 
