@@ -51,7 +51,7 @@ public class Scaler {
                     Scalr.Method.ULTRA_QUALITY,
                     mode, TARGET_WIDTH, TARGET_HEIGHT,
                     Scalr.OP_ANTIALIAS);
-            BufferedImage combined = new BufferedImage(TARGET_WIDTH, TARGET_HEIGHT, BufferedImage.TYPE_INT_RGB);
+            BufferedImage combined = new BufferedImage(TARGET_WIDTH, TARGET_HEIGHT, BufferedImage.TYPE_INT_ARGB);
             int x=0, y=0;
             if(mode==Scalr.Mode.FIT_TO_HEIGHT){
                 x=(TARGET_WIDTH-thumbnail.getWidth())/2;
@@ -60,7 +60,7 @@ public class Scaler {
                 y=(TARGET_HEIGHT-thumbnail.getHeight())/2;
             }       
             Graphics g = combined.getGraphics();
-            g.setColor(new java.awt.Color(0.0f, 0.0f, 0.0f, 1.0f));
+            g.setColor(new java.awt.Color(0.0f, 0.0f, 0.0f, 0.0f));
             g.fillRect(0, 0, combined.getWidth(), combined.getHeight());
             g.drawImage(thumbnail, x, y, null);
             g.dispose();            
