@@ -46,9 +46,10 @@ public class Scaler {
                 Logger.getLogger(Scaler.class.getName()).log(Level.SEVERE, null, ex);
             }
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
-            BufferedImage bufferedImage = subsampleImage(imageInputStream, 1000, 600);
+            // Use a subsampled image from the original, avoids read images too large to fit in memory
+            BufferedImage bufferedImage = subsampleImage(imageInputStream, TARGET_WIDTH*2, TARGET_HEIGHT*2);
             BufferedImage thumbnail = Scalr.resize(bufferedImage,
-                    Scalr.Method.ULTRA_QUALITY,
+                    Scalr.Method.QUALITY,
                     mode, TARGET_WIDTH, TARGET_HEIGHT,
                     Scalr.OP_ANTIALIAS);
             BufferedImage combined = new BufferedImage(TARGET_WIDTH, TARGET_HEIGHT, BufferedImage.TYPE_INT_ARGB);
