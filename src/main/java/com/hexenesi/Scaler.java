@@ -28,6 +28,9 @@ import org.imgscalr.Scalr;
  */
 public class Scaler {
 
+    private static final int TARGET_HEIGHT = 300;
+    private static final int TARGET_WIDTH = 500;
+
     public Scaler(File file) {
 
         try {
@@ -69,9 +72,6 @@ public class Scaler {
             Logger.getLogger(Scaler.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    private static final int TARGET_HEIGHT = 300;
-    private static final int TARGET_WIDTH = 500;
-
     public static BufferedImage subsampleImage(
             ImageInputStream inputStream,
             int x,
