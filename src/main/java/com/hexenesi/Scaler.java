@@ -52,6 +52,10 @@ public class Scaler {
         this.output_thumb = output_thumb;
     }
 
+    public void setDimensions(Dimension d){
+        TARGET_HEIGHT=d.height;
+        TARGET_WIDTH=d.width;
+    }
     public void setSaveSubSampled(boolean saveSubSampled) {
         this.saveSubSampled = saveSubSampled;
     }
