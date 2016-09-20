@@ -1,7 +1,5 @@
 package com.hexenesi;
 
-import java.io.File;
-
 public class ImageThumbnailer {
 
     /**
@@ -10,8 +8,8 @@ public class ImageThumbnailer {
     public static void main(String[] args) {
 
         for (String arg : args) {
-            File file = new File(arg);
-            Scaler s = new Scaler(file);
+            Scaler s = new Scaler(arg,"output.jpg","output_thumb.png");
+            s.doScaling();
         }
     }
 
