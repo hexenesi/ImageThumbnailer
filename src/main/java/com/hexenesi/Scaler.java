@@ -46,10 +46,21 @@ public class Scaler {
     String output_thumb = null;
     boolean saveSubSampled = false;
 
+    public Scaler(){   
+    }
+    
+    @Deprecated
     public Scaler(String file, String output, String output_thumb) {
         this.file = new File(file);
         this.output = output;
         this.output_thumb = output_thumb;
+    }
+    
+    public void setFile(String file){
+        this.file=new File(file);
+        String tmpName=file.substring(0, file.indexOf("."));
+        this.output=tmpName+"_output.png";
+        this.output_thumb=tmpName+"_output_thumb.png";
     }
 
     public void setDimensions(Dimension d){
@@ -73,13 +84,19 @@ public class Scaler {
             ImageInformation ii=new ImageInformation(orientation, bufferedImage.getWidth(), bufferedImage.getHeight());
             AffineTransform transform=getExifTransformation(ii);
             bufferedImage=transformImage(bufferedImage, transform);            
-            Scalr.Mode mode;            
-            if (bufferedImage.getHeight() > bufferedImage.getWidth()) {
-                mode = Scalr.Mode.FIT_TO_HEIGHT;
-            } else {
+            Scalr.Mode mode;
+            double scaleX=(TARGET_WIDTH*1.0)/(bufferedImage.getWidth()*1.0);
+            double scaleY=(TARGET_HEIGHT*1.0)/(bufferedImage.getHeight()*1.0);
+            System.out.println(scaleX);
+            System.out.println(scaleY);
+            if (scaleX<scaleY) {
                 mode = Scalr.Mode.FIT_TO_WIDTH;
-            }
-
+                System.out.println("FIT TO WIDTH");
+            } else {
+                mode = Scalr.Mode.FIT_TO_HEIGHT;
+                System.out.println("FIT TO HEIGHT");
+            } 
+            
             BufferedImage thumbnail = Scalr.resize(bufferedImage,
                     Scalr.Method.QUALITY,
                     mode, TARGET_WIDTH, TARGET_HEIGHT,
@@ -180,7 +197,9 @@ public class Scaler {
             } else {
                 return TiffTagConstants.ORIENTATION_VALUE_HORIZONTAL_NORMAL;
             }
-
+            if(tiffImageMetadata==null){
+                return TiffTagConstants.ORIENTATION_VALUE_HORIZONTAL_NORMAL;
+            }
             TiffField field = tiffImageMetadata.findField(TiffTagConstants.TIFF_TAG_ORIENTATION);
             if (field != null) {
                 return field.getIntValue();
