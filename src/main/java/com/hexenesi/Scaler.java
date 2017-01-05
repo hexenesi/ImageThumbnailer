@@ -77,6 +77,7 @@ public class Scaler {
     public void doScaling() {
         try {
             int orientation = getExifOrientation(file);
+            System.out.println(file.getName());
             //Dimension d = Imaging.getImageSize(file);
             ImageInputStream imageInputStream = ImageIO.createImageInputStream(file);
             // Use a subsampled image from the original, avoids read images too large to fit in memory
@@ -87,14 +88,10 @@ public class Scaler {
             Scalr.Mode mode;
             double scaleX=(TARGET_WIDTH*1.0)/(bufferedImage.getWidth()*1.0);
             double scaleY=(TARGET_HEIGHT*1.0)/(bufferedImage.getHeight()*1.0);
-            System.out.println(scaleX);
-            System.out.println(scaleY);
             if (scaleX<scaleY) {
                 mode = Scalr.Mode.FIT_TO_WIDTH;
-                System.out.println("FIT TO WIDTH");
             } else {
                 mode = Scalr.Mode.FIT_TO_HEIGHT;
-                System.out.println("FIT TO HEIGHT");
             } 
             
             BufferedImage thumbnail = Scalr.resize(bufferedImage,
