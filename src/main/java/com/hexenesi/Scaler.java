@@ -41,6 +41,7 @@ public class Scaler {
 
     private static int TARGET_HEIGHT = 300;
     private static int TARGET_WIDTH = 500;
+    private static String OUTPUT_EXTENSION="png";
     File file = null;
     String output = null;
     String output_thumb = null;
@@ -59,8 +60,8 @@ public class Scaler {
     public void setFile(String file){
         this.file=new File(file);
         String tmpName=file.substring(0, file.indexOf("."));
-        this.output=tmpName+"_output.png";
-        this.output_thumb=tmpName+"_output_thumb.png";
+        this.output=tmpName+"_output."+OUTPUT_EXTENSION;
+        this.output_thumb=tmpName+"_output_thumb."+OUTPUT_EXTENSION;
     }
 
     public void setDimensions(Dimension d){
@@ -115,10 +116,10 @@ public class Scaler {
             g.dispose();
             //Writes test subsampled image taken from original
             if (saveSubSampled) {
-                ImageIO.write(bufferedImage, "jpg", new File(output));
+                ImageIO.write(bufferedImage, OUTPUT_EXTENSION, new File(output));
             }
             //Writes thumbnail, created from the subsampled image.
-            ImageIO.write(combined, "png", new File(output_thumb));
+            ImageIO.write(combined, OUTPUT_EXTENSION, new File(output_thumb));
 
         } catch (IOException ex) {
             Logger.getLogger(Scaler.class.getName()).log(Level.SEVERE, null, ex);
