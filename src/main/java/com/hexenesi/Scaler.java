@@ -86,6 +86,8 @@ public class Scaler {
             AffineTransform transform=getExifTransformation(ii);
             bufferedImage=transformImage(bufferedImage, transform);            
             Scalr.Mode mode;
+            // calculate which side will be largest/smaller
+            // this works with any image size
             double scaleX=(TARGET_WIDTH*1.0)/(bufferedImage.getWidth()*1.0);
             double scaleY=(TARGET_HEIGHT*1.0)/(bufferedImage.getHeight()*1.0);
             if (scaleX<scaleY) {
