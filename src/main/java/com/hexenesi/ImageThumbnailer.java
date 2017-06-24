@@ -1,5 +1,7 @@
 package com.hexenesi;
 
+import java.awt.Dimension;
+
 public class ImageThumbnailer {
 
     /**
@@ -9,6 +11,9 @@ public class ImageThumbnailer {
         Scaler s=new Scaler();
         for (String arg : args) {
             s.setFile(arg);
+            Dimension d=new Dimension(250, 250);
+            
+            s.setDimensions(d);
             s.doScaling();
         }
     }
