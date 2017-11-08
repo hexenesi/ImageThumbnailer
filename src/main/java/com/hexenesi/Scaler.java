@@ -170,9 +170,9 @@ public class Scaler {
         long subsampling = 1;
 
         if (d1.getWidth() > d2.getWidth()) {
-            subsampling = Math.round(d1.getWidth() / d2.getWidth());
+            subsampling = (long) Math.floor(d1.getWidth() / d2.getWidth());
         } else if (d1.getHeight() > d2.getHeight()) {
-            subsampling = Math.round(d1.getHeight() / d2.getHeight());
+            subsampling = (long) Math.floor(d1.getHeight() / d2.getHeight());
         }
 
         return subsampling;
